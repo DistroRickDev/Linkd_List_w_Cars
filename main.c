@@ -16,11 +16,14 @@ void write();
 void read();
 void list_car();
 void ord_cons();
+void ord_cons_M();
 void ord_year();
+void ord_year_M();
 void reg_car();
 void greater_cons();
 void smallest_cons();
 void del_st_item();
+void del_last_item();
 
 int main() {
     int opcao = -1;
@@ -31,7 +34,12 @@ int main() {
         printf("2-Lista Carros:\n");
         printf("3-Carro com maior consumo:\n");
         printf("4-Carro com menor consumo:\n");
-        printf("5-Imprimir lista por ordem decresc. de consumo:\n");
+        printf("5-Ordenar lista por ordem decresc. de consumo:\n");
+        printf("6-Ordenar lista por ordem cresc. de consumo:\n");
+        printf("7-Ordenar lista por ordem decresc. de ano:\n");
+        printf("8-Ordenar lista por ordem cresc. de ano:\n");
+        printf("9-Eliminar primeiro item da tabela:\n");
+        printf("10-Eliminar ultimo item da tabela:\n");
         printf("0-Sair do programa:\n");
         scanf("%d", &opcao);
         switch (opcao) {
@@ -51,10 +59,24 @@ int main() {
             case 5:
                 ord_cons();
                 break;
+            case 6:
+                ord_cons_M();
+                break;
+            case 7:
+                ord_year();
+                break;
+            case 8:
+                ord_year_M();
+                break;
+            case 9:
+                del_st_item();
+                break;
+            case 10:
+                del_last_item();
+                break;
             case 0:
                 write();
                 exit(0);
-                break;
             default:
                 printf("Introduza uma opcao valida\n");
                 break;
@@ -153,6 +175,38 @@ void ord_cons(){
         }
     }
 }
+void ord_cons_M(){
+
+    int nao_houve_mais_trocas = 1;
+
+
+    while (nao_houve_mais_trocas == 1) {
+
+        nao_houve_mais_trocas = 0;
+
+        car *ptr = head;
+        car *prev = NULL;
+
+        while (ptr != NULL) {
+            car *nextCar = ptr->next;
+            if (nextCar == NULL) break;
+            if (ptr->consumption < nextCar->consumption) {
+                nao_houve_mais_trocas = 1;
+                ptr->next = nextCar->next;
+                if (prev != NULL)
+                    prev->next = nextCar;
+                else
+                    head = nextCar;
+                nextCar->next = ptr;
+            }
+            prev = ptr;
+
+
+            ptr = ptr->next;
+        }
+    }
+}
+
 
 void ord_year(){
 
@@ -186,6 +240,38 @@ void ord_year(){
     }
 }
 
+void ord_year_M()
+{
+
+    int nao_houve_mais_trocas = 1;
+
+
+    while (nao_houve_mais_trocas == 1) {
+
+        nao_houve_mais_trocas = 0;
+
+        car *ptr = head;
+        car *prev = NULL;
+
+        while (ptr != NULL) {
+            car *nextCar = ptr->next;
+            if (nextCar == NULL) break;
+            if (ptr->year < nextCar->year) {
+                nao_houve_mais_trocas = 1;
+                ptr->next = nextCar->next;
+                if (prev != NULL)
+                    prev->next = nextCar;
+                else
+                    head = nextCar;
+                nextCar->next = ptr;
+            }
+            prev = ptr;
+
+
+            ptr = ptr->next;
+        }
+    }
+}
 
 
 void reg_car(){
@@ -232,7 +318,28 @@ void smallest_cons() {
     printf("O carro com menor consumo e %s %s que consome %.2f\n", ptr_2->brand,ptr_2->model, ptr_2->consumption);
 }
 
-void del_st_item()
-{
-    car *ptr = head
+void del_st_item() {
+    car *ptr = head;
+    car *aux = head;
+    while (ptr != NULL){
+        if(ptr == head){
+            aux= ptr->next; // guardo posição do next do ptr
+            free(ptr); //
+            ptr->next=head;
+            head = aux;
+            ptr = head;
+        }
+        ptr = ptr->next;
+    }
+}
+
+void del_last_item() {
+    car *ptr = head;
+    while (ptr != NULL){
+        if(ptr->next == NULL){
+            free(ptr);
+
+        }
+        ptr = ptr->next;
+    }
 }
