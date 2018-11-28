@@ -335,11 +335,20 @@ void del_st_item() {
 
 void del_last_item() {
     car *ptr = head;
+    car * previous = NULL;
+    car * aux;
     while (ptr != NULL){
-        if(ptr->next == NULL){
+        if(ptr->next != NULL){
+            previous = ptr;
+        }
+        else{
+            aux = ptr->next;
             free(ptr);
-
+            ptr = previous;
+            ptr->next = aux;
         }
         ptr = ptr->next;
+
     }
+
 }
