@@ -24,6 +24,7 @@ void greater_cons();
 void smallest_cons();
 void del_st_item();
 void del_last_item();
+void del_sel_item();
 
 int main() {
     int opcao = -1;
@@ -40,6 +41,7 @@ int main() {
         printf("8-Ordenar lista por ordem cresc. de ano:\n");
         printf("9-Eliminar primeiro item da tabela:\n");
         printf("10-Eliminar ultimo item da tabela:\n");
+        printf("11- Eliminar carro da lista por escolha do utilizador\n");
         printf("0-Sair do programa:\n");
         scanf("%d", &opcao);
         switch (opcao) {
@@ -74,7 +76,11 @@ int main() {
             case 10:
                 del_last_item();
                 break;
+            case 11:
+                del_sel_item();
+                break;
             case 0:
+                printf("Escolheu sair do programa \n");
                 write();
                 exit(0);
             default:
@@ -351,4 +357,33 @@ void del_last_item() {
 
     }
 
+}
+
+void del_sel_item()
+{
+    char marca[20];
+    char modelo[20];
+    car *ptr = head;
+    car *aux = head;
+    car *previous = NULL;
+    printf("Por favor selecione a marca e modelo a eliminar\n");
+    printf("Introduza a marca \n");
+    scanf("%s", marca);
+    printf("Introduza o modelo \n");
+    scanf("%s", modelo);
+    while (ptr != NULL){
+        if(strcmp(marca, ptr->brand) == 0 && strcmp(modelo, ptr->model)==0){
+            aux = ptr->next;
+            free(ptr);
+            ptr = previous;
+            ptr->next = aux;
+        }
+        else
+        {
+            printf("Marca ou modelo nao encontrado\n");
+
+        }
+        previous = ptr;
+        ptr = ptr->next;
+    }
 }
